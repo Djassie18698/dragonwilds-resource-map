@@ -1,0 +1,367 @@
+{
+  "schema": 1,
+  "id": "ResourceMarkers",
+  "name": "Resource Markers",
+  "version": "1.0.0",
+  "description": "Shows ores, rocks, plants and other gatherables on your map and the MiniMap mod.",
+  "config": {
+    "file": "settings.txt"
+  },
+  "settings": [
+    {
+      "type": "header",
+      "label": "General"
+    },
+    {
+      "key": "enabled",
+      "type": "toggle",
+      "label": "Show markers",
+      "default": true,
+      "restart": false
+    },
+    {
+      "key": "hide_depleted",
+      "type": "toggle",
+      "label": "Hide mined / harvested",
+      "default": true,
+      "restart": false,
+      "tooltip": "Skip rocks and plants that are currently empty."
+    },
+    {
+      "key": "range_m",
+      "type": "slider",
+      "label": "Range",
+      "min": 50,
+      "max": 1000,
+      "step": 50,
+      "default": 250,
+      "restart": false,
+      "suffix": " m",
+      "tooltip": "Marks things within this distance of you."
+    },
+    {
+      "key": "icon_size",
+      "type": "slider",
+      "label": "Icon size",
+      "min": 12,
+      "max": 48,
+      "step": 4,
+      "default": 24,
+      "restart": false
+    },
+    {
+      "key": "menu_key",
+      "type": "key",
+      "label": "Menu key",
+      "default": "F7",
+      "restart": true,
+      "tooltip": "Key for the mod's own on-screen menu."
+    },
+    {
+      "type": "header",
+      "label": "Ores"
+    },
+    {
+      "key": "cat.copper",
+      "type": "toggle",
+      "label": "Copper",
+      "default": true,
+      "restart": false
+    },
+    {
+      "key": "cat.tin",
+      "type": "toggle",
+      "label": "Tin",
+      "default": true,
+      "restart": false
+    },
+    {
+      "key": "cat.iron",
+      "type": "toggle",
+      "label": "Iron",
+      "default": true,
+      "restart": false
+    },
+    {
+      "key": "cat.coal",
+      "type": "toggle",
+      "label": "Coal",
+      "default": true,
+      "restart": false
+    },
+    {
+      "key": "cat.silver",
+      "type": "toggle",
+      "label": "Silver",
+      "default": true,
+      "restart": false
+    },
+    {
+      "key": "cat.gold",
+      "type": "toggle",
+      "label": "Gold",
+      "default": true,
+      "restart": false
+    },
+    {
+      "key": "cat.blurite",
+      "type": "toggle",
+      "label": "Blurite",
+      "default": true,
+      "restart": false
+    },
+    {
+      "key": "cat.mithril",
+      "type": "toggle",
+      "label": "Mithril",
+      "default": true,
+      "restart": false
+    },
+    {
+      "key": "cat.adamantite",
+      "type": "toggle",
+      "label": "Adamantite",
+      "default": true,
+      "restart": false
+    },
+    {
+      "key": "cat.runite",
+      "type": "toggle",
+      "label": "Runite",
+      "default": true,
+      "restart": false
+    },
+    {
+      "key": "cat.luminite",
+      "type": "toggle",
+      "label": "Luminite",
+      "default": true,
+      "restart": false
+    },
+    {
+      "key": "cat.essence",
+      "type": "toggle",
+      "label": "Rune essence",
+      "default": true,
+      "restart": false
+    },
+    {
+      "key": "cat.dragontooth",
+      "type": "toggle",
+      "label": "Dragon tooth",
+      "default": true,
+      "restart": false
+    },
+    {
+      "key": "cat.avisk",
+      "type": "toggle",
+      "label": "Avisk crystal",
+      "default": true,
+      "restart": false
+    },
+    {
+      "key": "cat.soulstone",
+      "type": "toggle",
+      "label": "Soul stone",
+      "default": true,
+      "restart": false
+    },
+    {
+      "type": "header",
+      "label": "Rocks & minerals"
+    },
+    {
+      "key": "cat.clay",
+      "type": "toggle",
+      "label": "Clay",
+      "default": true,
+      "restart": false
+    },
+    {
+      "key": "cat.dreamstone",
+      "type": "toggle",
+      "label": "Dreamstone shard",
+      "default": true,
+      "restart": false
+    },
+    {
+      "key": "cat.limestone",
+      "type": "toggle",
+      "label": "Limestone",
+      "default": false,
+      "restart": false
+    },
+    {
+      "key": "cat.gypsum",
+      "type": "toggle",
+      "label": "Gypsum",
+      "default": false,
+      "restart": false
+    },
+    {
+      "key": "cat.sandstone",
+      "type": "toggle",
+      "label": "Sandstone",
+      "default": false,
+      "restart": false
+    },
+    {
+      "key": "cat.granite",
+      "type": "toggle",
+      "label": "Granite",
+      "default": false,
+      "restart": false
+    },
+    {
+      "key": "cat.stone",
+      "type": "toggle",
+      "label": "Stone",
+      "default": false,
+      "restart": false
+    },
+    {
+      "type": "header",
+      "label": "Plants & materials"
+    },
+    {
+      "key": "cat.toadflax",
+      "type": "toggle",
+      "label": "Toadflax",
+      "default": true,
+      "restart": false
+    },
+    {
+      "key": "cat.flax",
+      "type": "toggle",
+      "label": "Flax",
+      "default": true,
+      "restart": false
+    },
+    {
+      "key": "cat.harralander",
+      "type": "toggle",
+      "label": "Harralander",
+      "default": true,
+      "restart": false
+    },
+    {
+      "key": "cat.marrentil",
+      "type": "toggle",
+      "label": "Marrentil",
+      "default": true,
+      "restart": false
+    },
+    {
+      "key": "cat.snapdragon",
+      "type": "toggle",
+      "label": "Snapdragon",
+      "default": true,
+      "restart": false
+    },
+    {
+      "key": "cat.mushroom",
+      "type": "toggle",
+      "label": "Bittercap mushroom",
+      "default": true,
+      "restart": false
+    },
+    {
+      "key": "cat.swampweed",
+      "type": "toggle",
+      "label": "Swamp weed",
+      "default": true,
+      "restart": false
+    },
+    {
+      "key": "cat.swamptar",
+      "type": "toggle",
+      "label": "Swamp tar",
+      "default": true,
+      "restart": false
+    },
+    {
+      "key": "cat.bark",
+      "type": "toggle",
+      "label": "Bark",
+      "default": true,
+      "restart": false
+    },
+    {
+      "key": "cat.salvage",
+      "type": "toggle",
+      "label": "Salvage metal",
+      "default": true,
+      "restart": false
+    },
+    {
+      "key": "cat.desertweed",
+      "type": "toggle",
+      "label": "Desert weed",
+      "default": false,
+      "restart": false
+    },
+    {
+      "key": "cat.dwellberry",
+      "type": "toggle",
+      "label": "Dwellberries",
+      "default": false,
+      "restart": false
+    },
+    {
+      "key": "cat.cadavaberry",
+      "type": "toggle",
+      "label": "Cadavaberries",
+      "default": false,
+      "restart": false
+    },
+    {
+      "key": "cat.redberry",
+      "type": "toggle",
+      "label": "Redberries",
+      "default": false,
+      "restart": false
+    },
+    {
+      "key": "cat.onion",
+      "type": "toggle",
+      "label": "Onion",
+      "default": false,
+      "restart": false
+    },
+    {
+      "key": "cat.cabbage",
+      "type": "toggle",
+      "label": "Cabbage",
+      "default": false,
+      "restart": false
+    },
+    {
+      "key": "cat.potato",
+      "type": "toggle",
+      "label": "Potato",
+      "default": false,
+      "restart": false
+    },
+    {
+      "key": "cat.pumpkin",
+      "type": "toggle",
+      "label": "Pumpkin",
+      "default": false,
+      "restart": false
+    },
+    {
+      "key": "cat.bone",
+      "type": "toggle",
+      "label": "Bones",
+      "default": false,
+      "restart": false
+    },
+    {
+      "key": "cat.branches",
+      "type": "toggle",
+      "label": "Branches",
+      "default": false,
+      "restart": false
+    }
+  ]
+}

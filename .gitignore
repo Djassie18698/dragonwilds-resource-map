@@ -1,0 +1,13 @@
+# Per-player data written by the mod
+settings.txt
+*.log
+
+# Release builds
+*.zip
+
+# OS / editor clutter
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
+.idea/
