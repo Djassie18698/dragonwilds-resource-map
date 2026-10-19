@@ -1,6 +1,13 @@
-# Per-player data written by the mod
+# Per-player data written by the mod (and debug builds) in an installed copy, never in the source
 settings.txt
+build.txt
 *.log
+ResourceMarkers/foliage-seen.txt
+
+# Development data that stays local: a copy of a world save (it holds players' names), collected foliage
+tests/fixtures/*.sav
+tools/collected/
+tools/extract/__pycache__/
 
 # Release builds
 *.zip

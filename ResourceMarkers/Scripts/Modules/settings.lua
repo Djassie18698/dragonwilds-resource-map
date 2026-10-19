@@ -1,82 +1,82 @@
 local Util = require("Modules.util")
 local Categories = require("Modules.categories")
 
--- Persistent settings, stored as key=value lines in settings.txt next to the
--- mod's Scripts folder.
-local Settings = {
-    enabled = true,
-    hide_depleted = true,
-    range_m = 250,
-    icon_size = 24,
-    menu_key = "F7",
-    categories = {},
+-- Persistent settings: key=value lines in settings.txt in the mod folder, plus cat.<id>=1|0 per layer (the 1.x
+-- format: a 1.x settings.txt keeps its layer choices; its other keys are ignored).
+local KEYS = { -- in file order: { key, kind, default }
+    { "enabled", "bool", true },
+    { "counts", "bool", true },      -- count labels on group icons
+    { "clickable", "bool", true },   -- group icons open their area when clicked
+    { "icon_size", "number", 24 },
+    { "group_m", "number", 150 },    -- markers within this many metres are one group, at the zoom the map opens with
+                                     -- (zooming out or in doubles or halves it, so groups keep their size on screen)
+    { "minimap", "bool", true },     -- the minimap in the HUD's top-right corner
+    { "minimap_m", "number", 300 },  -- how much of the world it shows across (metres)
+    { "minimap_px", "number", 250 }, -- its size on screen
+    { "minimap_frames", "number", 5 }, -- it updates once every this many frames (1: every frame)
+    { "menu_key", "string", "F7" },
+    { "world_save", "string", "" },  -- save slot to read (SaveGames/<name>.sav); empty = ask the game
 }
 
-Settings.RANGE_MIN = 50
-Settings.RANGE_MAX = 1000
-Settings.RANGE_STEP = 50
-Settings.SIZE_MIN = 12
-Settings.SIZE_MAX = 48
-Settings.SIZE_STEP = 4
+local Settings = { layers = {} }
+local kindOf = {}
+for _, k in ipairs(KEYS) do
+    Settings[k[1]] = k[3]
+    kindOf[k[1]] = k[2]
+end
+for _, category in ipairs(Categories) do
+    Settings.layers[category.id] = category.default
+end
+
+-- Number settings the menu can step through: { min, max, step }.
+Settings.RANGES = { icon_size = { 12, 48, 4 }, group_m = { 50, 600, 50 }, minimap_m = { 100, 800, 50 } }
 
 local PATH = Util.mod_dir() .. "/settings.txt"
 
-for _, category in ipairs(Categories) do
-    Settings.categories[category.id] = category.default
-end
+local PARSE = {
+    bool = function(value) return value == "1" or value == "true" end,
+    number = function(value, current) return tonumber(value) or current end,
+    string = function(value) return value end,
+}
+local FORMAT = {
+    bool = function(value) return value and "1" or "0" end,
+    number = tostring,
+    string = tostring,
+}
 
-local function to_bool(value)
-    return value == "1" or value == "true"
-end
-
+-- Unknown keys (settings that no longer exist, layers that were removed) are ignored.
 function Settings.load()
     local file = io.open(PATH, "r")
-    if file == nil then
-        return
-    end
-
+    if not file then return end
     for line in file:lines() do
-        local key, value = line:match("^%s*([%w_%.]+)%s*=%s*(%S+)")
-        if key ~= nil then
-            local categoryId = key:match("^cat%.(.+)$")
-            if categoryId ~= nil then
-                if Categories.get(categoryId) ~= nil then
-                    Settings.categories[categoryId] = to_bool(value)
-                end
-            elseif key == "enabled" or key == "hide_depleted" then
-                Settings[key] = to_bool(value)
-            elseif key == "menu_key" then
-                Settings.menu_key = value
-            elseif key == "range_m" or key == "icon_size" then
-                Settings[key] = tonumber(value) or Settings[key]
-            end
+        local key, value = line:match("^%s*([%w_%.]+)%s*=%s*(.-)%s*$")
+        local id = key and key:match("^cat%.(.+)$")
+        if id then
+            if Categories.get(id) then Settings.layers[id] = PARSE.bool(value) end
+        elseif key and kindOf[key] then
+            Settings[key] = PARSE[kindOf[key]](value, Settings[key])
         end
     end
-
     file:close()
 end
 
 function Settings.save()
     local file = io.open(PATH, "w")
-    if file == nil then
-        Util.log("Could not save settings to " .. PATH)
+    if not file then
+        Util.log("Could not save settings to %s", PATH)
         return
     end
-
-    file:write("enabled=" .. (Settings.enabled and "1" or "0") .. "\n")
-    file:write("hide_depleted=" .. (Settings.hide_depleted and "1" or "0") .. "\n")
-    file:write("range_m=" .. tostring(Settings.range_m) .. "\n")
-    file:write("icon_size=" .. tostring(Settings.icon_size) .. "\n")
-    file:write("menu_key=" .. tostring(Settings.menu_key) .. "\n")
-    for _, category in ipairs(Categories) do
-        file:write("cat." .. category.id .. "=" .. (Settings.categories[category.id] and "1" or "0") .. "\n")
+    for _, k in ipairs(KEYS) do
+        file:write(k[1], "=", FORMAT[k[2]](Settings[k[1]]), "\n")
     end
-
+    for _, category in ipairs(Categories) do
+        file:write("cat.", category.id, "=", FORMAT.bool(Settings.layers[category.id]), "\n")
+    end
     file:close()
 end
 
-function Settings.is_category_on(id)
-    return Settings.categories[id] == true
+function Settings.layer_on(id)
+    return Settings.enabled and Settings.layers[id] == true
 end
 
 return Settings
